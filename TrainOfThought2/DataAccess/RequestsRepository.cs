@@ -28,17 +28,17 @@ namespace TrainOfThought.DataAccess
             return userRequests;
         }
 
-        internal void Add(CategoriesFonts newCategoryFont)
-        {
-            using var db = new SqlConnection(_connectionString);
+        //internal void Add(CategoriesFonts newCategoryFont)
+        //{
+        //    using var db = new SqlConnection(_connectionString);
 
-            var sqlString = @"insert into categoriesFonts(fontId, categoryId)
-                                                output inserted.id
-                                                values(@fontId, @categoryId)";
-            var id = db.ExecuteScalar<Guid>(sqlString, newCategoryFont);
-            newCategoryFont.Id = id;
+        //    var sqlString = @"insert into categoriesFonts(fontId, categoryId)
+        //                                        output inserted.id
+        //                                        values(@fontId, @categoryId)";
+        //    var id = db.ExecuteScalar<Guid>(sqlString, newCategoryFont);
+        //    newCategoryFont.Id = id;
 
-        }
+        //}
 
         internal void Remove(Guid fontId)
         {
@@ -49,18 +49,18 @@ namespace TrainOfThought.DataAccess
             db.Execute(sqlString, new { fontId });
         }
 
-        internal IEnumerable<Fonts> GetFontsByCategory(Guid categoryId)
-        {
-            using var db = new SqlConnection(_connectionString);
+        //internal IEnumerable<Fonts> GetFontsByCategory(Guid categoryId)
+        //{
+        //    using var db = new SqlConnection(_connectionString);
 
-            var sqlString = @"select f.* from categoriesFonts cf 
-                                            join fonts f 
-                                            on cf.fontId = f.id 
-                                            where cf.categoryId = @categoryId";
-            var categoryFonts = db.Query<Fonts>(sqlString, new { categoryId });
+        //    var sqlString = @"select f.* from categoriesFonts cf 
+        //                                    join fonts f 
+        //                                    on cf.fontId = f.id 
+        //                                    where cf.categoryId = @categoryId";
+        //    var categoryFonts = db.Query<Fonts>(sqlString, new { categoryId });
 
-            return categoryFonts;
-        }
+        //    return categoryFonts;
+        //}
 
     }
 }

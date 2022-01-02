@@ -1,3 +1,4 @@
+using TrainOfThought.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TrainOfThought2
+namespace TrainOfThought
 {
     public class Startup
     {
@@ -26,11 +27,12 @@ namespace TrainOfThought2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<UserRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrainOfThought2", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrainOfThought", Version = "v1" });
             });
         }
 
@@ -41,7 +43,7 @@ namespace TrainOfThought2
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrainOfThought2 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrainOfThought v1"));
             }
 
             app.UseHttpsRedirection();
