@@ -28,6 +28,8 @@ namespace TrainOfThought
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<UserRepository>();
+            services.AddTransient<RequestsRepository>();
+            services.AddTransient<ThoughtsRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -45,6 +47,8 @@ namespace TrainOfThought
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrainOfThought v1"));
             }
+
+            app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
 

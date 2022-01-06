@@ -17,25 +17,34 @@ namespace TrainOfThought.DataAccess
             _connectionString = config.GetConnectionString("TrainOfThought");
         }
 
+        internal IEnumerable<User> GetAll()
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var users = db.Query<User>(@"select * from Users");
+
+            return users;
+        }
+
         internal User GetUserByFirebaseKey(string firebaseKey)
         {
             using var db = new SqlConnection(_connectionString);
 
-            var sqlString = @"select * from users where firebaseKey = @firebaseKey";
+            var sqlString = @"select * from Users where firebaseKey = @firebaseKey";
 
             var user = db.QuerySingleOrDefault<User>(sqlString, new { firebaseKey });
 
             return user;
         }
 
-        internal void AddUser(User newUser)
+        public void AddUser(User newUser)
         {
             using var db = new SqlConnection(_connectionString);
 
-            var sqlString = @"insert into users(firstName, LastName, firebaseKey)
+            var sql = @"insert into Users(FirstName, LastName, FirebaseKey)
                                                 output inserted.id
-                                                values(@firstName, @LastName, @firebaseKey)";
-            var id = db.ExecuteScalar<Guid>(sqlString, newUser);
+                                                values(@FirstName, @LastName, @FirebaseKey)";
+            var id = db.ExecuteScalar<Guid>(sql, newUser);
             newUser.Id = id;
         }
     }

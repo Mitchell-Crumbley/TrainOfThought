@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TrainOfThought.Controllers
 {
@@ -21,17 +23,24 @@ namespace TrainOfThought.Controllers
             _repo = repo;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetAllUsers()
+        {
+            return Ok(_repo.GetAll());
+        }
+
         [HttpGet("/user/firebasekey/{firebasekey}")]
         public IActionResult GetFbUser(string firebasekey)
         {
             return Ok(_repo.GetUserByFirebaseKey(firebasekey));
         }
 
-        [HttpPost("/user")]
+        [HttpPost]
         public IActionResult CreateUser(User newUser)
         {
             _repo.AddUser(newUser);
-            return Created($"/user/{newUser.Id}", newUser);
+            return Created($"api/Users/{newUser.Id}", newUser);
         }
     }
 }

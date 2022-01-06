@@ -109,4 +109,15 @@ GO
 
 ALTER DATABASE [TrainOfThought] SET  READ_WRITE 
 GO
-
+CREATE TABLE [dbo].[Users](
+	[Id] [uniqueidentifier] NOT NULL,
+	[FirstName] [varchar](50) NOT NULL,
+	[LastName] [varchar](50) NOT NULL,
+	[FirebaseKey] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[Users] ([Id], [FirstName], [LastName], [FirebaseKey]) VALUES (N'145beb4f-54a0-41de-8de8-1e6adb3a38f3', N'Mitchell', N'Crumbley', N'1jBlxr1uECh7OJZNqowbhyoSmTV2')

@@ -21,32 +21,44 @@ namespace TrainOfThought.DataAccess
         {
             using var db = new SqlConnection(_connectionString);
 
-            var sqlString = @"select * from Requests where requestId = @id";
+            var sqlString = @"select * from UserRequests where requestId = @id";
 
             var userRequests = db.Query<Requests>(sqlString, new { id });
 
             return userRequests;
         }
 
-        //internal void Add(CategoriesFonts newCategoryFont)
-        //{
-        //    using var db = new SqlConnection(_connectionString);
-
-        //    var sqlString = @"insert into categoriesFonts(fontId, categoryId)
-        //                                        output inserted.id
-        //                                        values(@fontId, @categoryId)";
-        //    var id = db.ExecuteScalar<Guid>(sqlString, newCategoryFont);
-        //    newCategoryFont.Id = id;
-
-        //}
-
-        internal void Remove(Guid fontId)
+        internal IEnumerable<Requests> GetUserRequests(Guid id)
         {
             using var db = new SqlConnection(_connectionString);
 
-            var sqlString = @"delete from categoriesFonts where fontId = @fontId";
+            var sqlString = @"select * from UserRequests where userId = @id";
 
-            db.Execute(sqlString, new { fontId });
+            var userRequests = db.Query<Requests>(sqlString, new { id });
+
+            return userRequests;
+        }
+
+
+        internal void Add(Requests newRequest)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sqlString = @"insert into UserRequests(RequestedWord, ConnectedWord, WordType, userId)
+                                                output inserted.requestId
+                                                values(@RequestedWord, @ConnectedWord, @WordType, @userId)";
+            var id = db.ExecuteScalar<Guid>(sqlString, newRequest);
+            newRequest.requestId = id;
+        }
+
+
+        internal void Remove(Guid RequestId)
+        {
+            using var db = new SqlConnection(_connectionString);
+
+            var sqlString = @"delete from User_Requests where RequestId = @RequestId";
+
+            db.Execute(sqlString, new { RequestId });
         }
 
         //internal IEnumerable<Fonts> GetFontsByCategory(Guid categoryId)
